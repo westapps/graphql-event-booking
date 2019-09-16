@@ -12,7 +12,7 @@ const Event = require('./models/event');
 const util = require('./util/util');
 
 const app = express();
-const events = [];
+//const events = [];
 
 app.use(bodyParser.json());
 // REST API
@@ -50,7 +50,15 @@ app.use('/graphql', graphqlHttp({
   `),
   rootValue: {
     events: () => {
-      return events;
+      return Event.find()
+      .then(events => {
+        return events.map(event => {
+          return {...event._doc};
+        });
+      })
+      .catch(err => {
+        throw err; // express will catch this err and pass down to error handler 
+      });
     },
     createEvent: (args) => {
       // const event = {
@@ -67,7 +75,7 @@ app.use('/graphql', graphqlHttp({
         price: +args.eventInput.price,
         date: new Date(args.eventInput.date)
       });
-      // return a promise 
+      // return a promise
       return event.save()
       .then(result => {
         console.log(result);
