@@ -3,6 +3,11 @@
 const app = require('./app');
 const debug = require('debug')('app:server');
 const http = require('http');
+const mongoose = require('mongoose');
+// connect to mongoDB 
+const mongodbConnection = require('./mongodb/connection');
+mongodbConnection();
+
 
 /**
  * Get port from environment and store in Express.

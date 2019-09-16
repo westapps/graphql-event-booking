@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_URI": "ds059155.mlab.com:59155/event_booking",
+    "MONGO_USER": "admin",
+    "MONGO_PASSWORD": "Prado4X4!"
+  }
+}
