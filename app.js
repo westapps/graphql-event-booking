@@ -16,6 +16,36 @@ const util = require('./util/util');
 const app = express();
 //const events = [];
 
+const events = eventIds => {
+  return Event.find({_id: {$in: eventIds}})
+    .then(events => {
+      return events.map(event => {
+        return {
+          ...event._doc,
+          _id: event.id,
+          creator: user.bind(this, event.creator)
+        };
+      });
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+const user = (userId) => {
+  return User.findById(userId)
+    .then((user) => {
+      return {
+        ...user._doc,
+        _id: user.id,
+        createdEvents: events.bind(this, user._doc.createdEvents)
+      };
+    })
+    .catch((err) => {
+      throw err;
+    })
+}
+
 app.use(bodyParser.json());
 // REST API
 app.get('/', (req, res, next) => {
@@ -30,12 +60,14 @@ app.use('/graphql', graphqlHttp({
       description: String!
       price: Float!
       date: String!
+      creator: User!
     }
 
     type User {
       _id: ID!
       email: String!
       password: String
+      createdEvents: [Event!]
     }
 
     input EventInput {
@@ -69,7 +101,11 @@ app.use('/graphql', graphqlHttp({
       return Event.find()
       .then(events => {
         return events.map(event => {
-          return {...event._doc};
+          return {
+            ...event._doc,
+            _id: event.id,
+            creator: user.bind(this, event._doc.creator)
+          };
         });
       })
       .catch(err => {
@@ -89,7 +125,11 @@ app.use('/graphql', graphqlHttp({
       // return a promise
       return event.save()
       .then((result) => {
-        createdEvent = {...result._doc, _id: result._doc._id.toString()};
+        createdEvent = {
+          ...result._doc,
+          _id: result._doc._id.toString(),
+          creator: user.bind(this, result._doc.creator)
+        };
         console.log(result);
         return User.findById('5d84d48854b1db4f84413cf2');
       })
@@ -97,7 +137,7 @@ app.use('/graphql', graphqlHttp({
         if(!user){
           throw new Error('user not found');
         }
-        user.createEvents.push(event);
+        user.createdEvents.push(event);
         return user.save();
       })
       .then((result) => {
