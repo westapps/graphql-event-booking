@@ -1,6 +1,5 @@
 'use strict';
 
-
 function logErrors (err, req, res, next) {
   console.error(err.stack)
   next(err)
@@ -14,7 +13,7 @@ function clientErrorHandler (err, req, res, next) {
   }
 };
 
-function error404Handler (req, res, next) {
+function error404Handler (err, req, res, next) {
     let err = new Error('Path or File Not Found!');
     err.status = 404;
     next(err);
@@ -30,5 +29,4 @@ module.exports = {
 	clientErrorHandler,
 	error404Handler,
 	finalErrorHandler,
-}
-	
+};

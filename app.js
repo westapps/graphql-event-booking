@@ -8,13 +8,9 @@ const mongoose = require('mongoose');
 const graphQLSchema = require('./graphql/schema/index');
 const graphQLResolvers = require('./graphql/resolvers/index');
 
-
 const util = require('./util/util');
 
 const app = express();
-//const events = [];
-
-
 
 app.use(bodyParser.json());
 // REST API
@@ -22,11 +18,14 @@ app.get('/', (req, res, next) => {
   res.end('Hello world!');
 });
 // graphQL API
-app.use('/graphql', graphqlHttp({
-  schema: graphQLSchema,
-  rootValue: graphQLResolvers,
-  graphiql: true
-}));
+app.use(
+  '/graphql',
+  graphqlHttp({
+    schema: graphQLSchema,
+    rootValue: graphQLResolvers,
+    graphiql: true
+  })
+);
 
 // log errors
 app.use(util.logErrors);

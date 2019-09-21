@@ -40,6 +40,7 @@ module.exports = {
     try {
       const events = await Event.find();
       return events.map(event => {
+        console.log('events:', event._doc);
         return {
           ...event._doc,
           _id: event.id,
@@ -62,6 +63,7 @@ module.exports = {
     let createdEvent;
     try {
       const result = await event.save();
+      console.log('createEvent:', result._doc);
       createdEvent = {
         ...result._doc,
         _id: result._doc._id.toString(),
