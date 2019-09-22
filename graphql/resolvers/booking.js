@@ -1,20 +1,10 @@
 'use strict';
 
+const User = require('../../models/user');
 const Booking = require('../../models/booking');
+const Event = require('../../models/event');
 const { dateToString } = require('../../helpers/date');
-const { singleEvent, user } = require('./util');
-
-
-const transformBooking = booking => {
-  return {
-    ...booking._doc,
-    _id: booking.id,
-    user: user.bind(this, booking._doc.user),
-    event: singleEvent.bind(this, booking._doc.event),
-    createdAt: dateToString(booking._doc.createdAt),
-    updatedAt: dateToString(booking._doc.updatedAt)
-  };
-};
+const { transformBooking, transformEvent, events, singleEvent, user } = require('./util');
 
 
 module.exports = {

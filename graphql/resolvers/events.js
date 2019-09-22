@@ -1,17 +1,11 @@
 'use strict';
 
+const User = require('../../models/user');
 const Event = require('../../models/event');
+const Booking = require('../../models/booking');
 const { dateToString } = require('../../helpers/date');
-const { events, singleEvent, user } = require('./util');
+const { transformEvent, events, singleEvent, user } = require('./util');
 
-const transformEvent = event => {
-  return {
-    ...event._doc,
-    _id: event.id,
-    date: dateToString(event._doc.date),
-    creator: user.bind(this, event.creator)
-  };
-};
 
 module.exports = {
   events: async () => {
