@@ -147,5 +147,21 @@ module.exports = {
       createdAt: new Date(result._doc.createdAt).toISOString(),
       updatedAt: new Date(result._doc.updatedAt).toISOString()
     };
+  },
+
+  cancelBooking: async args => {
+    try{
+      const booking = await Booking.findById(args.bookingId).populate('event');
+      const event = {
+        ...booking._doc,
+        _id: booking.event.id,
+        creator: user.bind(this, booking.creator)
+      };
+      await Booking.deleteOne({_id: args.bookingId});
+      return event;
+    }catch(err){
+      throw err;
+    }
+
   }
 };
