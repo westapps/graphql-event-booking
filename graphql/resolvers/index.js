@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const Event = require('../../models/event');
 const User = require('../../models/user');
+const Booking = require('../../models/booking');
 
 const events = async eventIds => {
   try {
@@ -50,6 +51,16 @@ module.exports = {
       });
     }catch(err){
       throw err; // express will catch this err and pass down to error handler
+    }
+  },
+  bookings: async () => {
+    try {
+      const bookings = await Booking.find();
+      return bookings.map(booking => {
+        
+      })
+    } catch(err){
+      throw err;
     }
   },
   createEvent: async (args) => {
