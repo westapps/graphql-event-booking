@@ -2,6 +2,7 @@
 coverage
 build
 node_modules
+./frontend/node_modules
 stats.json
 .env
 ./config/config.js

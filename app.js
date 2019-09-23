@@ -4,6 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const mongoose = require('mongoose');
+// import authentication middleware
+const isAuth = require('./middleware/isAuth');
 
 const graphQLSchema = require('./graphql/schema/index');
 const graphQLResolvers = require('./graphql/resolvers/index');
@@ -16,6 +18,9 @@ app.use(bodyParser.json());
 app.get('/', (req, res, next) => {
   res.end('Hello world!');
 });
+// add authentication middleware 
+app.use(isAuth);
+
 // graphQL API
 app.use(
   '/graphql',
