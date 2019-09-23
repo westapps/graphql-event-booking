@@ -7,6 +7,7 @@ const Booking = require('../../models/booking');
 const Event = require('../../models/event');
 const { dateToString } = require('../../helpers/date');
 const { events, singleEvent, user } = require('./util');
+const constant = require('../../constant');
 
 module.exports = {
   createUser: async (args) => {
@@ -39,7 +40,7 @@ module.exports = {
       {
         userId: loginUser.id, email: loginUser.email
       },
-      'SuperSecretSignatureKey887%^$#@!',
+      constant.jwtSecretKey,
       {
         expiresIn: '2h'
       }
