@@ -1,6 +1,7 @@
 'use strict';
 
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 const Booking = require('../../models/booking');
 const Event = require('../../models/event');
@@ -24,5 +25,25 @@ module.exports = {
     }catch(err){
       throw err;
     }
+  },
+  login: async ({ email, password }) => {
+    const loginUser = await User.findOne({ email: email});
+    if(!loginUser){
+      throw new Error('invalid credentials');
+    }
+    const isEqual = await bcrypt.compare(password, loginUser.password);
+    if(!isEqual){
+      throw new Error('invalid credentials');
+    }
+    const token = jwt.sign(
+      {
+        userId: loginUser.id, email: loginUser.email
+      },
+      'SuperSecretSignatureKey887%^$#@!',
+      {
+        expiresIn: '2h'
+      }
+    );
+    return {userId: loginUser.id, token: token, tokenExpiration: 2};
   }
 }

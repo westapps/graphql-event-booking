@@ -9,7 +9,6 @@ const graphQLSchema = require('./graphql/schema/index');
 const graphQLResolvers = require('./graphql/resolvers/index');
 
 const util = require('./util/util');
-
 const app = express();
 
 app.use(bodyParser.json());
