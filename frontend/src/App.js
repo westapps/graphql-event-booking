@@ -5,25 +5,52 @@ import AuthPage from "./views/authPage";
 import EventsPage from "./views/eventsPage";
 import BookingsPage from "./views/bookingsPage";
 import MainNavigation from './components/navigation/mainNavigation';
+import AuthContext from './context/authContext';
 
 
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    token: null,
+    userId: null
+  };
+
+  login = (token, userId, tokenExpiration) => {
+    this.setState({token: token, userId: userId});
+  };
+
+  logout = () => {
+    this.setState({token: null, userId: null});
+  };
+
+
   render(){
     return (
       <BrowserRouter>
         <React.Fragment>
-          <MainNavigation />
-            <main className="main-content">
-              <Switch>
-                <Redirect from='/' to='/auth' exact />
-                <Route exact={true} path='/auth' component={AuthPage}/>
-                <Route exact={true} path='/events' component={EventsPage}/>
-                <Route exact={true} path='/bookings' component={BookingsPage}/>
-                <Route component={ErrorPage} />
-              </Switch>
-            </main>
+          <AuthContext.Provider
+            value={{
+              token: this.state.token,
+              userId: this.state.userId,
+              login: this.login,
+              logout: this.logout
+            }}
+          >
+            <MainNavigation />
+              <main className="main-content">
+                <Switch>
+                  {!this.state.token && (<Redirect from='/' to='/auth' exact />)}
+                  {this.state.token && (<Redirect from='/' to='/events' exact />)}
+                  {this.state.token && (<Redirect from='/auth' to='/events' exact />)}
+                  {!this.state.token && (<Route exact={true} path='/auth' component={AuthPage}/>)}
+                  <Route exact={true} path='/events' component={EventsPage}/>
+                  {this.state.token && (<Route exact={true} path='/bookings' component={BookingsPage}/>)}
+                  <Route component={ErrorPage} />
+                </Switch>
+              </main>
+          </AuthContext.Provider>
         </React.Fragment>
       </BrowserRouter>
     );
