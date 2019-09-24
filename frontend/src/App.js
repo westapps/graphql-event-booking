@@ -15,7 +15,7 @@ class App extends Component {
       <BrowserRouter>
         <React.Fragment>
           <MainNavigation />
-            <main>
+            <main className="main-content">
               <Switch>
                 <Redirect from='/' to='/auth' exact />
                 <Route exact={true} path='/auth' component={AuthPage}/>

@@ -13,7 +13,7 @@ mongodbConnection();
  * Get port from environment and store in Express.
  */
 // normalise PORT
-const port = normalizePort(process.env.PORT || 3000);
+const port = normalizePort(process.env.PORT || 3008);
 app.set('port', port);
 
 /**
