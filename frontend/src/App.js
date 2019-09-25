@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import ErrorPage from "./views/errorPage";
+
 import AuthPage from "./views/authPage";
 import EventsPage from "./views/eventsPage";
 import BookingsPage from "./views/bookingsPage";
@@ -46,7 +46,7 @@ class App extends Component {
                   {!this.state.token && (<Route exact={true} path='/auth' component={AuthPage}/>)}
                   <Route exact={true} path='/events' component={EventsPage}/>
                   {this.state.token && (<Route exact={true} path='/bookings' component={BookingsPage}/>)}
-                  {!this.state.token && (<Redirect to='/auth' exact />)}                  
+                  {!this.state.token && (<Redirect to='/auth' exact />)}
                 </Switch>
               </main>
           </AuthContext.Provider>
