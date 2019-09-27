@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AuthContext from '../context/authContext';
 import Spinner from '../components/spinner/spinner';
+import BookingList from '../components/bookings/bookingList';
+
 
 import './bookings.css';
 
@@ -62,23 +64,55 @@ class BookingsPage extends Component {
     })
   }
 
-  render(){
-    const bookingList = this.state.bookings.map(booking => {
-      return (
-        <li key={booking._id}>
-          {booking.event.title} - {new Date(booking.createdAt).toLocaleDateString()}
-        </li>
-      );
-    });
+  onDeleteHandler = (bookingId) => {
+    this.setState({ isLoading: true });
+    const requestBody = {
+      query: `
+          mutation {
+            cancelBooking(bookingId: "${bookingId}") {
+            _id
+             title
+            }
+          }
+        `
+    };
 
-    return (
-      <React.Fragment>
-        {this.state.isLoading ? <Spinner /> :
-          (<ul>
-            {bookingList}
-          </ul>)
+    fetch('http://localhost:3008/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.context.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
         }
-      </React.Fragment>
+        return res.json();
+      })
+      .then(resData => {
+        this.setState(prevState => {
+          const updatedBookings = prevState.bookings.filter(booking => {
+            console.log(booking._id, ': ',bookingId);
+            return booking._id !== bookingId;
+          });
+          return { bookings: updatedBookings, isLoading: false };
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false });
+      });
+  }
+
+  render(){
+    return (
+        <React.Fragment>
+          {this.state.isLoading ? <Spinner /> :
+            <BookingList bookings={this.state.bookings} onDelete={this.onDeleteHandler} />
+          }
+        </React.Fragment>
     );
   }
 };

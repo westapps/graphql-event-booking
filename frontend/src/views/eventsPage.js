@@ -210,13 +210,14 @@ class EventsPage extends Component {
     })
     .catch(err => {
       console.log(err);
-      this.setState({isLoading: false});
+      
     })
   };
 
   componentWillUnmount(){
     this.isActive = false;
   }
+
 
   render(){
 
