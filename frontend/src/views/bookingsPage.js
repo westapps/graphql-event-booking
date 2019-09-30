@@ -112,7 +112,7 @@ class BookingsPage extends Component {
       });
   }
 
-  onChangeTab = (message) => {
+  onChangeTabHandler = (message) => {
 
     switch(message){
       case 'list':
@@ -150,13 +150,13 @@ class BookingsPage extends Component {
             <button
               className="btn"
               className={this.state.bookingTab === 'list' ? 'active' : ''}
-              onClick={() => this.onChangeTab('list')}
+              onClick={() => this.onChangeTabHandler('list')}
             >List
             </button>
             <button
               className="btn"
               className={this.state.bookingTab === 'chart' ? 'active' : ''}
-              onClick={() => this.onChangeTab('chart')}
+              onClick={() => this.onChangeTabHandler('chart')}
             >Chart
             </button>
           </div>
