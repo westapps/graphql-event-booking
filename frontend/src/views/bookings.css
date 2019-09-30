@@ -1,22 +1,29 @@
-.events-control {
+.bookings-page,
+.bookings-tab {
   text-align: center;
-  border: 1px solid #5101d1;
-  padding: 1rem;
-  margin: 2rem auto;
-  width: 30rem;
-  max-width: 80%;
+  margin: 1rem auto;
+  align-items: center;
+
 }
 
-.events__list {
-  margin: 2rem auto;
-  width: 40rem;
-  max-width: 80%;
-  list-style: none;
-  padding: 0;
+.bookings-tab button,
+.bookings-tab button:focus {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: inherit;
+  padding: 0.5rem 4rem;
+  cursor: pointer;
 }
 
-.events__list-item {
-  margin: 1rem 0;
-  padding: 1rem;
-  border: 1px solid #5101d1;
+.bookings-tab button:focus {
+  outline: none;
+}
+
+.bookings-tab button.active {
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: 2px solid #01d1d1;
+
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AuthContext from '../context/authContext';
 import Spinner from '../components/spinner/spinner';
 import BookingList from '../components/bookings/bookingList';
+import BookingChart from '../components/bookings/bookingChart';
 
 
 import './bookings.css';
@@ -9,7 +10,8 @@ import './bookings.css';
 class BookingsPage extends Component {
   state = {
     isLoading: false,
-    bookings: []
+    bookings: [],
+    bookingTab: 'list'
   }
 
   static contextType = AuthContext;
@@ -30,6 +32,7 @@ class BookingsPage extends Component {
               event {
                 _id
                 title
+                price
                 date
               }
             }
@@ -68,13 +71,16 @@ class BookingsPage extends Component {
     this.setState({ isLoading: true });
     const requestBody = {
       query: `
-          mutation {
-            cancelBooking(bookingId: "${bookingId}") {
+          mutation CancelBooking($id: ID!) {
+            cancelBooking(bookingId: $id) {
             _id
              title
             }
           }
-        `
+        `,
+      variables: {
+        id: bookingId
+      }
     };
 
     fetch('http://localhost:3008/graphql', {
@@ -106,12 +112,63 @@ class BookingsPage extends Component {
       });
   }
 
+  onChangeTab = (message) => {
+
+    switch(message){
+      case 'list':
+        this.setState((prevState) => {
+          return {
+            ...this.prevState,
+            bookingTab: 'list'
+          };
+        });
+        break;
+      case 'chart':
+      this.setState((prevState) => {
+        return {
+          ...this.prevState,
+          bookingTab: 'chart'
+        };
+      });
+      break;
+      default:
+        return this.setState((prevState) => {
+          return {
+            ...prevState,
+            bookingTab: 'list'
+          };
+        });
+    }
+  }
+
   render(){
+    let content = <Spinner />;
+    if(this.state.isLoading === false) {
+      return content = (
+        <div className="bookings-page">
+          <div className="bookings-tab">
+            <button
+              className="btn"
+              className={this.state.bookingTab === 'list' ? 'active' : ''}
+              onClick={() => this.onChangeTab('list')}
+            >List
+            </button>
+            <button
+              className="btn"
+              className={this.state.bookingTab === 'chart' ? 'active' : ''}
+              onClick={() => this.onChangeTab('chart')}
+            >Chart
+            </button>
+          </div>
+          {this.state.bookingTab === 'list' && <BookingList bookings={this.state.bookings} onDelete={this.onDeleteHandler} />}
+          {this.state.bookingTab === 'chart' && <BookingChart bookings={this.state.bookings} />}
+        </div>
+      );
+    };
+
     return (
         <React.Fragment>
-          {this.state.isLoading ? <Spinner /> :
-            <BookingList bookings={this.state.bookings} onDelete={this.onDeleteHandler} />
-          }
+          {content}
         </React.Fragment>
     );
   }

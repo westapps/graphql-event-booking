@@ -4,7 +4,8 @@ const User = require('../../models/user');
 const Booking = require('../../models/booking');
 const Event = require('../../models/event');
 const { dateToString } = require('../../helpers/date');
-const { transformBooking, transformEvent, events, singleEvent, user } = require('./util');
+// const { events, singleEvent, user } = require('./util');
+const { transformBooking, transformEvent } = require('./mergeData');
 
 
 module.exports = {
