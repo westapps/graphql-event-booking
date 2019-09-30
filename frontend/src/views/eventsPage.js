@@ -52,7 +52,7 @@ class EventsPage extends Component {
       return;
     }
     const event = {title, price, date, description};
-    console.log(event);
+    //console.log(event);
 
     let requestBody = {
       query: `
@@ -91,8 +91,8 @@ class EventsPage extends Component {
       return res.json();
     })
     .then(resData => {
-      console.log(resData);
-      //this.fetchEvents();
+      //console.log(resData);
+
       this.setState(prevState => {
         const updatedEvents = [...prevState.events];
         updatedEvents.push({
@@ -153,7 +153,7 @@ class EventsPage extends Component {
       return res.json();
     })
     .then(resData => {
-      console.log(resData);
+      //console.log(resData);
       const events = resData.data.events;
       if(this.isActive){
         this.setState({events: events, isLoading: false});

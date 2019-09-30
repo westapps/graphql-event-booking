@@ -56,10 +56,10 @@ class BookingsPage extends Component {
       return res.json();
     })
     .then(resData => {
-      console.log(resData);
+      //console.log(resData);
       const bookings = resData.data.bookings;
       this.setState({bookings: bookings, isLoading: false});
-      console.log(this.state.bookings);
+      //console.log(this.state.bookings);
     })
     .catch(err => {
       console.log(err);
