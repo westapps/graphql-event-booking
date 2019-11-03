@@ -6,10 +6,10 @@ import AuthContext from '../../context/authContext';
 import './mainNavigation.css';
 
 const MainNavigation = props => (
-  <AuthContext.Consumer>
+  <AuthContext.Consumer >
     {context => {
       return (
-        <header className="main-navigation">
+        <header data-testid="MainNavigation" className="main-navigation">
           <div className="main-navigation__logo">
             <h1>xEvent</h1>
           </div>

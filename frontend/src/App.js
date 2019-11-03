@@ -39,16 +39,16 @@ class App extends Component {
             }}
           >
             <MainNavigation />
-              <main className="main-content">
-                <Switch>
-                  {this.state.token && (<Redirect from="/" to='/events' exact />)}
-                  {this.state.token && (<Redirect from="/auth" to='/events' exact />)}
-                  {!this.state.token && (<Route exact={true} path='/auth' component={AuthPage}/>)}
-                  <Route exact={true} path='/events' component={EventsPage}/>
-                  {this.state.token && (<Route exact={true} path='/bookings' component={BookingsPage}/>)}
-                  {!this.state.token && <Redirect to="/auth" exact />}
-                </Switch>
-              </main>
+            <main className="main-content">
+              <Switch>
+                {this.state.token && (<Redirect from="/" to='/events' exact />)}
+                {this.state.token && (<Redirect from="/auth" to='/events' exact />)}
+                {!this.state.token && (<Route exact={true} path='/auth' component={AuthPage}/>)}
+                <Route exact={true} path='/events' component={EventsPage}/>
+                {this.state.token && (<Route exact={true} path='/bookings' component={BookingsPage}/>)}
+                {!this.state.token && <Redirect to="/auth" exact />}
+              </Switch>
+            </main>
           </AuthContext.Provider>
         </React.Fragment>
       </BrowserRouter>

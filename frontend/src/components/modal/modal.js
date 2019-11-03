@@ -3,7 +3,7 @@ import React from 'react';
 import './modal.css';
 
 const Modal = props => (
-  <div className="modal">
+  <div data-testid="modal" className="modal">
     <header className="modal__header">
       <h1>{props.title}</h1>
     </header>

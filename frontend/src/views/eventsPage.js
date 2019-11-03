@@ -51,7 +51,7 @@ class EventsPage extends Component {
     ){
       return;
     }
-    const event = {title, price, date, description};
+    //const event = {title, price, date, description};
     //console.log(event);
 
     let requestBody = {
